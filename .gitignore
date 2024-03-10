@@ -1,0 +1,7 @@
+.venv
+static
+templates
+uploads
+best.pt
+.idea
+__pycache__
