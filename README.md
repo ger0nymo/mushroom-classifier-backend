@@ -2,7 +2,7 @@ Flask backend server setting up a POST endpoint that can receive an image, run t
 
 ## Example request
 ```http request
-POST .../upload 
+POST /upload 
 ```
 
 Payload Type: Multipart Form-Data
