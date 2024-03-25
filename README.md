@@ -1,5 +1,17 @@
 Flask backend server setting up a POST endpoint that can receive an image, run the loaded model, and return a prediction to the client.
 
+## Project setup
+1. Install the required packages using the following command:
+   ```bash
+   pip install -r requirements.txt
+   ``` 
+2. Run the server:
+   ```bash
+   python app.py
+   ```
+
+
+
 ## Example request
 ```http request
 POST /upload 
