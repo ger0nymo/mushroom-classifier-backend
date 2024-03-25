@@ -10,7 +10,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
 
 model = YOLO('best.pt')
-
+print('Model loaded')
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -41,7 +41,16 @@ def upload_file():
 
         result = Prediction(top5).json()
 
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # If probability of the first prediction is greater than 0.7, move the image to a folder with the corresponding class name.
+        # This could later be used to retrain the model with the new images.
+        if top5_probs[0].item() > 0.7:
+            os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], names[top5_idx[0]]), exist_ok=True)
+            os.rename(os.path.join(app.config['UPLOAD_FOLDER'], filename),
+                      os.path.join(app.config['UPLOAD_FOLDER'], names[top5_idx[0]], filename))
+        else:
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        print(result)
 
         return result
     else:
@@ -49,4 +58,4 @@ def upload_file():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5000)
